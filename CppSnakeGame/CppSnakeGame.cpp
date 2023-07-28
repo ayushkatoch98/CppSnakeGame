@@ -1,20 +1,36 @@
-// CppSnakeGame.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
+#include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Game.h"
 
-int main()
-{
-    std::cout << "Hello World!\n";
+#define WINDOW_SIZE 550
+#define BOARD_SIZE 50
+#define SCORE_SIZE 50
+
+
+int main(){
+
+    if (WINDOW_SIZE % 2 != 0 || BOARD_SIZE % 2 != 0) {
+        std::cout << "Board and Window size must be an even number" << std::endl;
+        return 1;
+    }
+
+    if (WINDOW_SIZE % BOARD_SIZE != 0) {
+        std::cout << "Board and Window size must be divisible" << std::endl;
+        return 1;
+    }
+
+    sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE - SCORE_SIZE, WINDOW_SIZE), "Snake Game");
+
+    sf::Font font;
+    if (!font.loadFromFile("valorax.otf")) {
+        std::cout << "Unable to load font";
+        window.close();
+        return 1;
+    }
+ 
+    Game game(WINDOW_SIZE, SCORE_SIZE, BOARD_SIZE, BOARD_SIZE, font);
+
+    game.start(window);
+
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
